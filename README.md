@@ -29,3 +29,6 @@ Run and store output,
 ```sh
 build/gauss 5 5 0.01 > results/gauss/output.txt
 ```
+
+# plot results
+

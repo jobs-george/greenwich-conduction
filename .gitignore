@@ -3,3 +3,6 @@
 *.o
 *.out
 *.exe
+
+# python
+/venv/
