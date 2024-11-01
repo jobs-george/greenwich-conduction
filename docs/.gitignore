@@ -1,0 +1,12 @@
+*.md
+*.html
+*.docx
+
+# latex
+*.fls
+*.aux
+*.fdb_latexmk
+*.log
+*.odt
+*.synctex.gz
+*.toc

@@ -5,21 +5,24 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-method = "jacobi2d"
+method = "gauss"  # gauss
+flag_compile = False
 
 # Compile the C++ code (only needed once or if code changes)
-compile_process = subprocess.run(["g++", "-o", f"build/{method}", f"src/{method}.cpp"])
-if compile_process.returncode != 0:
-    print("Compilation failed!")
-    exit(1)
+if flag_compile:
+    compile_process = subprocess.run(["g++", "-o", f"build/{method}", f"src/{method}.cpp"])
+    if compile_process.returncode != 0:
+        print("Compilation failed!")
+        exit(1)
 
 # Run the C++ executable and measure its runtime
-m, n, tol = 5, 5, 0.01  # Set your parameters here
+m, n, tol = 1000, 1000, 0.01  # Set your parameters here
 start_time = time.time()  # Start timer
 
-run_process = subprocess.run(
-    [f"build/{method}", str(m), str(n), str(tol), f"> results/{method}/output.txt"]
-)
+with open(f"results/{method}/output.txt", "w") as output_file:
+    run_process = subprocess.run(
+        [f"build/{method}", str(m), str(n), str(tol)], stdout=output_file
+    )
 
 # Check if the C++ executable ran successfully
 if run_process.returncode != 0:

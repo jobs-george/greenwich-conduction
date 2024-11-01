@@ -1,3 +1,7 @@
 # docs
 
-Explain the problem a bit here...
+Compile documentation with,
+
+```sh
+pdflatex report.tex
+```
