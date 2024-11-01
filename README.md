@@ -30,5 +30,20 @@ Run and store output,
 build/gauss 5 5 0.01 > results/gauss/output.txt
 ```
 
-# plot results
+# results
 
+Runtime and results plots are managed in Python,
+
+```py
+# app.py
+
+import subprocess
+import time
+import numpy as np
+import matplotlib.pyplot as plt
+
+method = "jacobi2d"
+
+```
+
+The [outputs](results/gauss/output.txt), [runtimes](results/gauss/execution_time.txt), and [plots](results/plots/).
