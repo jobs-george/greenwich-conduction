@@ -1,9 +1,40 @@
+import subprocess
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 
+method = "jacobi2d"
+
+# Compile the C++ code (only needed once or if code changes)
+compile_process = subprocess.run(["g++", "-o", f"build/{method}", f"src/{method}.cpp"])
+if compile_process.returncode != 0:
+    print("Compilation failed!")
+    exit(1)
+
+# Run the C++ executable and measure its runtime
+m, n, tol = 5, 5, 0.01  # Set your parameters here
+start_time = time.time()  # Start timer
+
+run_process = subprocess.run(
+    [f"build/{method}", str(m), str(n), str(tol), f"> results/{method}/output.txt"]
+)
+
+# Check if the C++ executable ran successfully
+if run_process.returncode != 0:
+    print("Execution failed!")
+    exit(1)
+
+end_time = time.time()  # End timer
+runtime = end_time - start_time
+print(f"Execution time: {runtime:.4f} seconds")
+
+# Write execution time to a file
+with open(f"results/{method}/execution_time.txt", "w") as file:
+    file.write(f"Execution time: {runtime:.4f} seconds\n")
+
 # Read data from the output file
 data = []
-with open("results/gauss/output.txt", "r") as file:
+with open(f"results/{method}/output.txt", "r") as file:
     lines = file.readlines()
 
     # Skip the first line with iteration info
@@ -18,12 +49,14 @@ data = np.array(data)
 plt.figure(figsize=(8, 6))
 plt.imshow(data, cmap="hot", interpolation="nearest")
 plt.colorbar(label="Temperature")
-plt.title("Temperature Distribution")
+plt.title(f"Temperature Distribution ({method})")
 plt.xlabel("Grid Column")
 plt.ylabel("Grid Row")
 
 # Save the plot to a file
-plt.savefig("results/plots/temperature_distribution.png", dpi=300, bbox_inches="tight")
+plt.savefig(
+    f"results/plots/temperature_distribution_{method}.png", dpi=300, bbox_inches="tight"
+)
 
 # Optionally, display the plot
 plt.show()
